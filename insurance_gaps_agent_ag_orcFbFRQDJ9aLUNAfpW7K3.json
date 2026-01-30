@@ -1,0 +1,36 @@
+{
+  "total_opportunities": 2,
+  "no_insurance_count": 2,
+  "low_coverage_count": 0,
+  "total_opportunity_value": 119358.13,
+  "total_mf_value_at_risk": 39786042.25,
+  "average_age": 67.5,
+  "opportunities": [
+    {
+      "user_id": "f70539a5-fd7b-45e5-a358-2f080cdfdb43",
+      "user_name": "KAYUR MEHTA",
+      "agent_external_id": "ag_orcFbFRQDJ9aLUNAfpW7K3",
+      "agent_name": "NANDINI BANERJEE JHA",
+      "age": 68,
+      "mf_current_value": 28628139.98,
+      "total_premium": 0.0,
+      "expected_premium": 85884.42,
+      "insurance_status": "NO_INSURANCE",
+      "premium_opportunity_value": 85884.42,
+      "coverage_percentage": 0.0
+    },
+    {
+      "user_id": "3d313363-df3b-4023-b926-3a10ebd953cb",
+      "user_name": "ANUPAM DUTTA",
+      "agent_external_id": "ag_orcFbFRQDJ9aLUNAfpW7K3",
+      "agent_name": "NANDINI BANERJEE JHA",
+      "age": 67,
+      "mf_current_value": 11157902.27,
+      "total_premium": 0.0,
+      "expected_premium": 33473.71,
+      "insurance_status": "NO_INSURANCE",
+      "premium_opportunity_value": 33473.71,
+      "coverage_percentage": 0.0
+    }
+  ]
+}

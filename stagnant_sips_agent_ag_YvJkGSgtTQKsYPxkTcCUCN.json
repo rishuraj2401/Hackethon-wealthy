@@ -1,0 +1,46 @@
+{
+  "total_stagnant_sips": 3,
+  "total_clients_affected": 3,
+  "total_sip_value": 19500.0,
+  "opportunities": [
+    {
+      "user_id": "ffeed544-3be4-4108-a534-361c58746a77",
+      "user_name": "PRADNYA CHANDRAKANT GAIKWAD",
+      "agent_id": "76,352",
+      "agent_external_id": "ag_YvJkGSgtTQKsYPxkTcCUCN",
+      "agent_name": "I4I INVESTMENT SERVICES PRIVATE LIMITED",
+      "sip_meta_id": "85",
+      "scheme_name": "[HDFC Mid-Cap Opportunities Fund (G), ICICI Pru Value Discovery Fund (G), HDFC Mid-Cap Opportunities Fund (G), ICICI Pru Value Discovery Fund (G)]",
+      "current_sip": 7500.0,
+      "created_at": "July 30, 2023, 7:02 PM",
+      "months_stagnant": 30,
+      "success_amount": 137500.0
+    },
+    {
+      "user_id": "00c1c445-7dfd-4c49-ba19-49f32254b623",
+      "user_name": "SEEMA AJAY SURVE",
+      "agent_id": "76,352",
+      "agent_external_id": "ag_YvJkGSgtTQKsYPxkTcCUCN",
+      "agent_name": "I4I INVESTMENT SERVICES PRIVATE LIMITED",
+      "sip_meta_id": "116",
+      "scheme_name": "[HDFC Flexi Cap Fund - (G), Kotak Large & Midcap Fund (G)]",
+      "current_sip": 5000.0,
+      "created_at": "July 30, 2023, 7:52 PM",
+      "months_stagnant": 30,
+      "success_amount": 160000.0
+    },
+    {
+      "user_id": "089a4379-dc96-490f-b892-223e74fd2f0e",
+      "user_name": "CHINMAY BHASKAR SUPE",
+      "agent_id": "76,352",
+      "agent_external_id": "ag_YvJkGSgtTQKsYPxkTcCUCN",
+      "agent_name": "I4I INVESTMENT SERVICES PRIVATE LIMITED",
+      "sip_meta_id": "302",
+      "scheme_name": "[HDFC Focused 30 Fund (G), HDFC Focused 30 Fund (G), ICICI Pru Value Discovery Fund (G), HDFC Focused 30 Fund (G), ICICI Pru Value Discovery Fund (G), ICICI Pru Value Discovery Fund (G), HDFC Focused 30 Fund (G)]",
+      "current_sip": 7000.0,
+      "created_at": "July 30, 2023, 7:53 PM",
+      "months_stagnant": 30,
+      "success_amount": 160000.0
+    }
+  ]
+}

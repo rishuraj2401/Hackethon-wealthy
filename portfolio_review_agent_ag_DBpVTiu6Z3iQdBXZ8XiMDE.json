@@ -1,0 +1,39 @@
+{
+  "total_clients": 1,
+  "total_underperforming_schemes": 2,
+  "total_value_underperforming": 1507177.27,
+  "clients": [
+    {
+      "user_id": "017b9fb6-ef3f-490b-8954-c731bd360e4f",
+      "client_name": "RAJESH KUMAR",
+      "agent_external_id": "ag_DBpVTiu6Z3iQdBXZ8XiMDE",
+      "agent_name": "RAJIV KUMAR SHAW",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 1507177.27,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00001624",
+          "scheme_name": "DSP Midcap Fund (G)",
+          "live_xirr": 12.2952,
+          "benchmark_xirr": 16.9898,
+          "xirr_underperformance": 4.69,
+          "current_value": 979087.62,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "DSP"
+        },
+        {
+          "wpc": "MF00005564",
+          "scheme_name": "DSP Healthcare Fund (G)",
+          "live_xirr": 11.8249,
+          "benchmark_xirr": 12.3128,
+          "xirr_underperformance": 0.49,
+          "current_value": 528089.65,
+          "benchmark_name": "Nifty 500",
+          "category": "Sectoral / Thematic",
+          "amc_name": "DSP"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,912 @@
+{
+  "total_clients": 30,
+  "total_underperforming_schemes": 55,
+  "total_value_underperforming": 63104811.46,
+  "clients": [
+    {
+      "user_id": "3689496f-98f1-4f9c-9a42-27fd3ce85a86",
+      "client_name": "Archana",
+      "agent_external_id": "ag_FVxS6Q8cUkb97suRzgiMe6",
+      "agent_name": "ABHILASH VENKATESH SIDDAPUR",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 7670355.32,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00000323",
+          "scheme_name": "DSP Large Cap Fund - Regular (G)",
+          "live_xirr": 3.8738,
+          "benchmark_xirr": 5.8258,
+          "xirr_underperformance": 1.95,
+          "current_value": 2037524.92,
+          "benchmark_name": "Nifty 50",
+          "category": "Large Cap Fund",
+          "amc_name": "DSP"
+        },
+        {
+          "wpc": "MF00000182",
+          "scheme_name": "HDFC Balanced Advantage Fund (G)",
+          "live_xirr": 4.9972,
+          "benchmark_xirr": 5.8258,
+          "xirr_underperformance": 0.83,
+          "current_value": 5632830.4,
+          "benchmark_name": "Nifty 50",
+          "category": "Dynamic Asset Allocation or Balanced Advantage",
+          "amc_name": "HDFC"
+        }
+      ]
+    },
+    {
+      "user_id": "210b93fc-0781-4fa9-b565-a7ef68703ea7",
+      "client_name": "Shreya Jasmine Joshi",
+      "agent_external_id": "ag_LdhaKnMWYBVeJMXX9kaVpe",
+      "agent_name": "YOGESH GOYAL",
+      "number_of_underperforming_schemes": 4,
+      "total_value_underperforming": 5004299.39,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00000968",
+          "scheme_name": "Canara Robeco Large and Mid Cap Fund (G)",
+          "live_xirr": 14.1976,
+          "benchmark_xirr": 18.8045,
+          "xirr_underperformance": 4.61,
+          "current_value": 1462064.28,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Large & Mid Cap Fund",
+          "amc_name": "Canara Robeco"
+        },
+        {
+          "wpc": "MF00003586",
+          "scheme_name": "Mirae Asset Large & Midcap Fund - Regular (G)",
+          "live_xirr": 16.4078,
+          "benchmark_xirr": 20.9442,
+          "xirr_underperformance": 4.54,
+          "current_value": 1278976.91,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Large & Mid Cap Fund",
+          "amc_name": "Mirae"
+        },
+        {
+          "wpc": "MF00001491",
+          "scheme_name": "Baroda BNP Paribas Mid Cap Fund - Regular (G)",
+          "live_xirr": 19.3606,
+          "benchmark_xirr": 21.1561,
+          "xirr_underperformance": 1.8,
+          "current_value": 1067832.95,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "BNP Paribas"
+        },
+        {
+          "wpc": "MF00005788",
+          "scheme_name": "Mirae Asset Midcap Fund (G)",
+          "live_xirr": 20.7891,
+          "benchmark_xirr": 21.2845,
+          "xirr_underperformance": 0.5,
+          "current_value": 1195425.25,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "Mirae"
+        }
+      ]
+    },
+    {
+      "user_id": "bc97863d-2fc9-4d2b-b06a-5bbc68392dfd",
+      "client_name": "JAYANTA KUMAR DHUPAL",
+      "agent_external_id": "ag_2AjGGL6LJ56zpQsmFGCmz6",
+      "agent_name": "ROHIT KUMAR PATEL",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 3524840.11,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00001744",
+          "scheme_name": "Sundaram Large and Mid Cap Fund (G)",
+          "live_xirr": 7.8593,
+          "benchmark_xirr": 8.9898,
+          "xirr_underperformance": 1.13,
+          "current_value": 1237425.42,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Large & Mid Cap Fund",
+          "amc_name": "Sundaram"
+        },
+        {
+          "wpc": "MF00000947",
+          "scheme_name": "SBI Equity Hybrid Fund (G)",
+          "live_xirr": 13.8142,
+          "benchmark_xirr": 14.3397,
+          "xirr_underperformance": 0.53,
+          "current_value": 2287414.69,
+          "benchmark_name": "Nifty 50",
+          "category": "Aggressive Hybrid Fund",
+          "amc_name": "SBI"
+        }
+      ]
+    },
+    {
+      "user_id": "f298c5ca-f661-4a0a-b8db-29588eae240e",
+      "client_name": "Indiraben Dipakkumar Trivedi",
+      "agent_external_id": "ag_8rz9z8pNVmRcxP2TfftcAU",
+      "agent_name": "NAME  CHETAN RAMNIKLAL SHAH",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 3499346.35,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00006181",
+          "scheme_name": "Aditya Birla SL ESG Integration Strategy Fund (G)",
+          "live_xirr": 12.4363,
+          "benchmark_xirr": 15.0212,
+          "xirr_underperformance": 2.58,
+          "current_value": 1766453.33,
+          "benchmark_name": "Nifty 500",
+          "category": "Sectoral / Thematic",
+          "amc_name": "Aditya Birla"
+        },
+        {
+          "wpc": "MF00000989",
+          "scheme_name": "HDFC Hybrid Equity Fund (G)",
+          "live_xirr": 11.3125,
+          "benchmark_xirr": 12.0024,
+          "xirr_underperformance": 0.69,
+          "current_value": 1732893.02,
+          "benchmark_name": "Nifty 50",
+          "category": "Aggressive Hybrid Fund",
+          "amc_name": "HDFC"
+        }
+      ]
+    },
+    {
+      "user_id": "e3fa37c3-ed56-4417-9efc-5477aae5581c",
+      "client_name": "FELIX DSOUZA",
+      "agent_external_id": "ag_uiRjgNuUrjo5CcJWpsjMfj",
+      "agent_name": "SANDEEP KUMAR",
+      "number_of_underperforming_schemes": 4,
+      "total_value_underperforming": 3384677.96,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00001931",
+          "scheme_name": "Edelweiss Large & Mid Cap Fund (G)",
+          "live_xirr": 14.8879,
+          "benchmark_xirr": 17.6629,
+          "xirr_underperformance": 2.78,
+          "current_value": 613224.42,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Large & Mid Cap Fund",
+          "amc_name": "Edelweiss"
+        },
+        {
+          "wpc": "MF00001793",
+          "scheme_name": "Kotak Midcap Fund (G)",
+          "live_xirr": 8.8452,
+          "benchmark_xirr": 11.2222,
+          "xirr_underperformance": 2.38,
+          "current_value": 798736.76,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "Kotak Mahindra"
+        },
+        {
+          "wpc": "MF00001491",
+          "scheme_name": "Baroda BNP Paribas Mid Cap Fund - Regular (G)",
+          "live_xirr": 15.8894,
+          "benchmark_xirr": 17.4273,
+          "xirr_underperformance": 1.54,
+          "current_value": 682155.05,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "BNP Paribas"
+        },
+        {
+          "wpc": "MF00000388",
+          "scheme_name": "Canara Robeco Flexi Cap Fund (G)",
+          "live_xirr": 12.0558,
+          "benchmark_xirr": 12.4275,
+          "xirr_underperformance": 0.37,
+          "current_value": 1290561.73,
+          "benchmark_name": "Nifty 500",
+          "category": "Flexi Cap Fund",
+          "amc_name": "Canara Robeco"
+        }
+      ]
+    },
+    {
+      "user_id": "e9030635-e364-498a-a83c-e6e3b22e761e",
+      "client_name": "ANUP KUMAR AGARWAL",
+      "agent_external_id": "ag_2AjGGL6LJ56zpQsmFGCmz6",
+      "agent_name": "ROHIT KUMAR PATEL",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 3242623.57,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00004620",
+          "scheme_name": "Canara Robeco Emerging Equities - Direct (G)",
+          "live_xirr": 11.7208,
+          "benchmark_xirr": 16.914,
+          "xirr_underperformance": 5.19,
+          "current_value": 1606490.43,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Large & Mid Cap Fund",
+          "amc_name": "Canara Robeco"
+        },
+        {
+          "wpc": "MF00004493",
+          "scheme_name": "SBI Small Cap Fund - Direct (G)",
+          "live_xirr": 9.0208,
+          "benchmark_xirr": 11.9448,
+          "xirr_underperformance": 2.92,
+          "current_value": 1636133.14,
+          "benchmark_name": "Nifty SmallCap 250",
+          "category": "Small Cap Fund",
+          "amc_name": "SBI"
+        }
+      ]
+    },
+    {
+      "user_id": "7d2e438d-ad3b-4c4c-848b-a275cfbf0fab",
+      "client_name": "SOMIT SRIVASTAVA",
+      "agent_external_id": "ag_UG3q39NQEs6xrucqBfgEAm",
+      "agent_name": "SOMIT SRIVASTAVA",
+      "number_of_underperforming_schemes": 3,
+      "total_value_underperforming": 2539366.86,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00004788",
+          "scheme_name": "Mirae Asset Large & Midcap Fund - Direct (G)",
+          "live_xirr": 16.0008,
+          "benchmark_xirr": 20.1354,
+          "xirr_underperformance": 4.13,
+          "current_value": 756385.04,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Large & Mid Cap Fund",
+          "amc_name": "Mirae"
+        },
+        {
+          "wpc": "MF00003359",
+          "scheme_name": "AXIS ELSS Tax Saver Fund (G)",
+          "live_xirr": 11.6481,
+          "benchmark_xirr": 13.7582,
+          "xirr_underperformance": 2.11,
+          "current_value": 864866.85,
+          "benchmark_name": "Nifty 500",
+          "category": "ELSS",
+          "amc_name": "Axis"
+        },
+        {
+          "wpc": "MF00004501",
+          "scheme_name": "AXIS Bluechip Fund - Direct (G)",
+          "live_xirr": 10.8979,
+          "benchmark_xirr": 11.8677,
+          "xirr_underperformance": 0.97,
+          "current_value": 918114.97,
+          "benchmark_name": "Nifty 50",
+          "category": "Large Cap Fund",
+          "amc_name": "Axis"
+        }
+      ]
+    },
+    {
+      "user_id": "959705fc-fe58-4791-bb99-2d788dd208ca",
+      "client_name": "SOURABH AGRAWAL",
+      "agent_external_id": "ag_hwuJFjSAgkbozBUazHoGN6",
+      "agent_name": "PRAGYA RAJ SHIVA",
+      "number_of_underperforming_schemes": 3,
+      "total_value_underperforming": 2535471.41,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00005016",
+          "scheme_name": "Motilal Oswal Flexi Cap Fund (G)",
+          "live_xirr": 13.3734,
+          "benchmark_xirr": 15.5547,
+          "xirr_underperformance": 2.18,
+          "current_value": 548230.66,
+          "benchmark_name": "Nifty 500",
+          "category": "Flexi Cap Fund",
+          "amc_name": "Motilal Oswal"
+        },
+        {
+          "wpc": "MF00003539",
+          "scheme_name": "Kotak Balanced Advantage Fund - Regular (G)",
+          "live_xirr": 8.5229,
+          "benchmark_xirr": 10.324,
+          "xirr_underperformance": 1.8,
+          "current_value": 829315.11,
+          "benchmark_name": "Nifty 50",
+          "category": "Dynamic Asset Allocation or Balanced Advantage",
+          "amc_name": "Kotak Mahindra"
+        },
+        {
+          "wpc": "MF00003268",
+          "scheme_name": "Edelweiss Balanced Advantage Fund (G)",
+          "live_xirr": 8.4242,
+          "benchmark_xirr": 9.3076,
+          "xirr_underperformance": 0.88,
+          "current_value": 1157925.64,
+          "benchmark_name": "Nifty 50",
+          "category": "Dynamic Asset Allocation or Balanced Advantage",
+          "amc_name": "Edelweiss"
+        }
+      ]
+    },
+    {
+      "user_id": "765187c6-ae83-4bfe-bf87-94e6504bfdb2",
+      "client_name": "vikram chavan",
+      "agent_external_id": "",
+      "agent_name": "",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 2330619.11,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00000194",
+          "scheme_name": "HDFC Balanced Advantage Fund (IDCW)",
+          "live_xirr": 5.3298,
+          "benchmark_xirr": 13.5811,
+          "xirr_underperformance": 8.25,
+          "current_value": 1792581.83,
+          "benchmark_name": "Nifty 50",
+          "category": "Dynamic Asset Allocation or Balanced Advantage",
+          "amc_name": "HDFC"
+        },
+        {
+          "wpc": "MF00005703",
+          "scheme_name": "HSBC Large & Mid Cap Fund (G)",
+          "live_xirr": 17.6635,
+          "benchmark_xirr": 20.2516,
+          "xirr_underperformance": 2.59,
+          "current_value": 538037.28,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Large & Mid Cap Fund",
+          "amc_name": "HSBC"
+        }
+      ]
+    },
+    {
+      "user_id": "bb2a3150-438a-4f96-9ce6-a288c2b2a5dd",
+      "client_name": "Nayana",
+      "agent_external_id": "",
+      "agent_name": "",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 2330619.11,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00000194",
+          "scheme_name": "HDFC Balanced Advantage Fund (IDCW)",
+          "live_xirr": 5.3298,
+          "benchmark_xirr": 13.5811,
+          "xirr_underperformance": 8.25,
+          "current_value": 1792581.83,
+          "benchmark_name": "Nifty 50",
+          "category": "Dynamic Asset Allocation or Balanced Advantage",
+          "amc_name": "HDFC"
+        },
+        {
+          "wpc": "MF00005703",
+          "scheme_name": "HSBC Large & Mid Cap Fund (G)",
+          "live_xirr": 17.6635,
+          "benchmark_xirr": 20.2516,
+          "xirr_underperformance": 2.59,
+          "current_value": 538037.28,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Large & Mid Cap Fund",
+          "amc_name": "HSBC"
+        }
+      ]
+    },
+    {
+      "user_id": "66a3b153-7d5f-4cbc-b555-01fe5000dada",
+      "client_name": "ABHISHEK PURWAR",
+      "agent_external_id": "ag_u7LwBQ22sDWyYAKeMrAuYm",
+      "agent_name": "NEHA PURWAR",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 2130232.97,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00001074",
+          "scheme_name": "Bandhan Large & Mid Cap Fund (G)",
+          "live_xirr": 15.1508,
+          "benchmark_xirr": 16.4817,
+          "xirr_underperformance": 1.33,
+          "current_value": 903149.4,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Large & Mid Cap Fund",
+          "amc_name": "IDFC"
+        },
+        {
+          "wpc": "MF00006400",
+          "scheme_name": "Nippon India Flexi Cap Fund - Regular (G)",
+          "live_xirr": 11.4999,
+          "benchmark_xirr": 11.7801,
+          "xirr_underperformance": 0.28,
+          "current_value": 1227083.57,
+          "benchmark_name": "Nifty 500",
+          "category": "Flexi Cap Fund",
+          "amc_name": "Nippon"
+        }
+      ]
+    },
+    {
+      "user_id": "baa2141a-bf88-42a8-be3f-75448ed24c8d",
+      "client_name": "Dr M N Bhojamma",
+      "agent_external_id": "ag_FW4hzLmvqkP9D4DQR9rPF7",
+      "agent_name": "SURESH NETHRA",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 2104989.91,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00003686",
+          "scheme_name": "AXIS Midcap Fund (G)",
+          "live_xirr": 19.3724,
+          "benchmark_xirr": 24.1769,
+          "xirr_underperformance": 4.8,
+          "current_value": 1209138.99,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "Axis"
+        },
+        {
+          "wpc": "MF00001793",
+          "scheme_name": "Kotak Midcap Fund (G)",
+          "live_xirr": 24.9952,
+          "benchmark_xirr": 26.2865,
+          "xirr_underperformance": 1.29,
+          "current_value": 895850.92,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "Kotak Mahindra"
+        }
+      ]
+    },
+    {
+      "user_id": "c8b9a81d-41fc-4c70-af68-bedd09b7b450",
+      "client_name": "SMITA S THAKER",
+      "agent_external_id": "ag_4M3Q9jSXjhPHnZQ5FPJpYA",
+      "agent_name": "SANJAY NARENDRAPRASAD THAKER",
+      "number_of_underperforming_schemes": 1,
+      "total_value_underperforming": 2061236.4,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00003359",
+          "scheme_name": "AXIS ELSS Tax Saver Fund (G)",
+          "live_xirr": 11.7168,
+          "benchmark_xirr": 13.9755,
+          "xirr_underperformance": 2.26,
+          "current_value": 2061236.4,
+          "benchmark_name": "Nifty 500",
+          "category": "ELSS",
+          "amc_name": "Axis"
+        }
+      ]
+    },
+    {
+      "user_id": "a5f47b58-3691-4b11-9e03-0f920c294b89",
+      "client_name": "VIJAYANTI AJWANI",
+      "agent_external_id": "ag_VthidiPSs38wphz4FSpPPc",
+      "agent_name": "KUNDAN I",
+      "number_of_underperforming_schemes": 1,
+      "total_value_underperforming": 2055315.64,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00001169",
+          "scheme_name": "UTI-Large Cap Fund (G)",
+          "live_xirr": 9.5706,
+          "benchmark_xirr": 10.4477,
+          "xirr_underperformance": 0.88,
+          "current_value": 2055315.64,
+          "benchmark_name": "Nifty 50",
+          "category": "Large Cap Fund",
+          "amc_name": "UTI"
+        }
+      ]
+    },
+    {
+      "user_id": "84c09621-5383-488c-b2c2-5834c17659bc",
+      "client_name": "MEGHANA KAPOOR",
+      "agent_external_id": "ag_PSKJYRZRgtYSFMGxayKRcg",
+      "agent_name": "NEHA KHANDELWAL",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 2008638.65,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00000162",
+          "scheme_name": "Tata Large & Mid Cap Fund - Regular (G)",
+          "live_xirr": -5.6854,
+          "benchmark_xirr": -0.6861,
+          "xirr_underperformance": 5.0,
+          "current_value": 915970.82,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Large & Mid Cap Fund",
+          "amc_name": "Tata"
+        },
+        {
+          "wpc": "MF00001537",
+          "scheme_name": "Bandhan Large Cap Fund (G)",
+          "live_xirr": -2.5534,
+          "benchmark_xirr": -2.1708,
+          "xirr_underperformance": 0.38,
+          "current_value": 1092667.83,
+          "benchmark_name": "Nifty 50",
+          "category": "Large Cap Fund",
+          "amc_name": "IDFC"
+        }
+      ]
+    },
+    {
+      "user_id": "4d828674-112a-44ad-9f4a-57dcb0211d22",
+      "client_name": "AGNIVESH ARUN KUMAR MISHRA",
+      "agent_external_id": "ag_Z9n59rJxR96edWi9MYNVx2",
+      "agent_name": "KALPESH KAILASH SHARMA",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 1990630.17,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00000151",
+          "scheme_name": "DSP Large & Mid Cap Fund - Regular (G)",
+          "live_xirr": 15.6512,
+          "benchmark_xirr": 18.1236,
+          "xirr_underperformance": 2.47,
+          "current_value": 865722.86,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Large & Mid Cap Fund",
+          "amc_name": "DSP"
+        },
+        {
+          "wpc": "MF00001793",
+          "scheme_name": "Kotak Midcap Fund (G)",
+          "live_xirr": 17.4798,
+          "benchmark_xirr": 18.4914,
+          "xirr_underperformance": 1.01,
+          "current_value": 1124907.31,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "Kotak Mahindra"
+        }
+      ]
+    },
+    {
+      "user_id": "5d6ef0c1-6594-4921-aa55-e92399992c7a",
+      "client_name": "MUTHUSAMY SURESH BABU",
+      "agent_external_id": "ag_4A4MuaVKgKVFBAfbCjobHE",
+      "agent_name": "SAIKAT DAS",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 1840965.1,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00001126",
+          "scheme_name": "AXIS Retirement Savings Fund - AP - Reg (G)",
+          "live_xirr": 10.2934,
+          "benchmark_xirr": 14.8727,
+          "xirr_underperformance": 4.58,
+          "current_value": 820169.3,
+          "benchmark_name": "Nifty 500",
+          "category": "Retirement Fund",
+          "amc_name": "Axis"
+        },
+        {
+          "wpc": "MF00002673",
+          "scheme_name": "AXIS Aggressive Hybrid Fund - Regular (G)",
+          "live_xirr": 10.0118,
+          "benchmark_xirr": 11.2206,
+          "xirr_underperformance": 1.21,
+          "current_value": 1020795.8,
+          "benchmark_name": "Nifty 50",
+          "category": "Aggressive Hybrid Fund",
+          "amc_name": "Axis"
+        }
+      ]
+    },
+    {
+      "user_id": "dc0100d6-4699-408c-ada0-16f1c2295210",
+      "client_name": "SHUBHANKAR SHYAMPRASAD LIMAYE",
+      "agent_external_id": "ag_SVtSFkLTHD4oAP5ciJ3iXT",
+      "agent_name": "unassigned",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 1693696.44,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00004302",
+          "scheme_name": "SBI Midcap Fund - Direct (G)",
+          "live_xirr": 14.7411,
+          "benchmark_xirr": 20.1191,
+          "xirr_underperformance": 5.38,
+          "current_value": 908529.91,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "SBI"
+        },
+        {
+          "wpc": "MF00005027",
+          "scheme_name": "HSBC Small Cap Fund - Direct (G)",
+          "live_xirr": 13.7914,
+          "benchmark_xirr": 16.8743,
+          "xirr_underperformance": 3.08,
+          "current_value": 785166.53,
+          "benchmark_name": "Nifty SmallCap 250",
+          "category": "Small Cap Fund",
+          "amc_name": "HSBC"
+        }
+      ]
+    },
+    {
+      "user_id": "acd231de-fdc4-4f8f-af99-de95751d44b4",
+      "client_name": "JYOTIRMOY MUKHERJEE",
+      "agent_external_id": "ag_Bn9htzbcEjNG4pwHX6yVbG",
+      "agent_name": "KARTICK DAS",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 1599258.32,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00045815",
+          "scheme_name": "Motilal Oswal Consumption Fund - Regular (G)",
+          "live_xirr": -40.7707,
+          "benchmark_xirr": -9.3057,
+          "xirr_underperformance": 31.46,
+          "current_value": 867526.62,
+          "benchmark_name": "Nifty 500",
+          "category": "Sectoral / Thematic",
+          "amc_name": "Motilal Oswal"
+        },
+        {
+          "wpc": "MF00006521",
+          "scheme_name": "Aditya Birla SL Business Cycle Fund (G)",
+          "live_xirr": 10.5322,
+          "benchmark_xirr": 11.2297,
+          "xirr_underperformance": 0.7,
+          "current_value": 731731.7,
+          "benchmark_name": "Nifty 500",
+          "category": "Sectoral / Thematic",
+          "amc_name": "Aditya Birla"
+        }
+      ]
+    },
+    {
+      "user_id": "017b9fb6-ef3f-490b-8954-c731bd360e4f",
+      "client_name": "RAJESH KUMAR",
+      "agent_external_id": "ag_DBpVTiu6Z3iQdBXZ8XiMDE",
+      "agent_name": "RAJIV KUMAR SHAW",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 1507177.27,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00001624",
+          "scheme_name": "DSP Midcap Fund (G)",
+          "live_xirr": 12.2952,
+          "benchmark_xirr": 16.9898,
+          "xirr_underperformance": 4.69,
+          "current_value": 979087.62,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "DSP"
+        },
+        {
+          "wpc": "MF00005564",
+          "scheme_name": "DSP Healthcare Fund (G)",
+          "live_xirr": 11.8249,
+          "benchmark_xirr": 12.3128,
+          "xirr_underperformance": 0.49,
+          "current_value": 528089.65,
+          "benchmark_name": "Nifty 500",
+          "category": "Sectoral / Thematic",
+          "amc_name": "DSP"
+        }
+      ]
+    },
+    {
+      "user_id": "f337a5de-c3ed-45fd-8d8c-2a11c6b22e75",
+      "client_name": "Gauranga Rathod",
+      "agent_external_id": "",
+      "agent_name": "",
+      "number_of_underperforming_schemes": 1,
+      "total_value_underperforming": 1313156.32,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00004498",
+          "scheme_name": "AXIS Long Term Equity Fund - Direct (G)",
+          "live_xirr": 13.1615,
+          "benchmark_xirr": 17.246,
+          "xirr_underperformance": 4.08,
+          "current_value": 1313156.32,
+          "benchmark_name": "Nifty 500",
+          "category": "ELSS",
+          "amc_name": "Axis"
+        }
+      ]
+    },
+    {
+      "user_id": "0448b45b-60d1-4f06-8523-b73b920b84a6",
+      "client_name": "SURYA NARAYAN PATNAIK",
+      "agent_external_id": "ag_SVtSFkLTHD4oAP5ciJ3iXT",
+      "agent_name": "unassigned",
+      "number_of_underperforming_schemes": 1,
+      "total_value_underperforming": 1231916.62,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00006554",
+          "scheme_name": "HDFC Multi Cap Fund (G)",
+          "live_xirr": 1.7509,
+          "benchmark_xirr": 3.9594,
+          "xirr_underperformance": 2.21,
+          "current_value": 1231916.62,
+          "benchmark_name": "Nifty 500",
+          "category": "Multi Cap Fund",
+          "amc_name": "HDFC"
+        }
+      ]
+    },
+    {
+      "user_id": "7e9441d3-5712-4123-8cc0-ede07de7b880",
+      "client_name": "SANDEEP KUMAR KOHLI",
+      "agent_external_id": "ag_uq9qqY2o8ZyXBZ2zQNigW2",
+      "agent_name": "PRADEEP BORRA",
+      "number_of_underperforming_schemes": 1,
+      "total_value_underperforming": 1144354.21,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00001793",
+          "scheme_name": "Kotak Midcap Fund (G)",
+          "live_xirr": 20.9721,
+          "benchmark_xirr": 22.0731,
+          "xirr_underperformance": 1.1,
+          "current_value": 1144354.21,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "Kotak Mahindra"
+        }
+      ]
+    },
+    {
+      "user_id": "23f6fe31-1d65-4679-99c0-dd5eee522fd6",
+      "client_name": "JAYANTA CHATTERJEE",
+      "agent_external_id": "ag_hwuJFjSAgkbozBUazHoGN6",
+      "agent_name": "PRAGYA RAJ SHIVA",
+      "number_of_underperforming_schemes": 1,
+      "total_value_underperforming": 960784.2,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00006554",
+          "scheme_name": "HDFC Multi Cap Fund (G)",
+          "live_xirr": 8.5613,
+          "benchmark_xirr": 9.6183,
+          "xirr_underperformance": 1.06,
+          "current_value": 960784.2,
+          "benchmark_name": "Nifty 500",
+          "category": "Multi Cap Fund",
+          "amc_name": "HDFC"
+        }
+      ]
+    },
+    {
+      "user_id": "06a2d605-78ac-4a0e-b71b-695a261fc469",
+      "client_name": "Pravin",
+      "agent_external_id": "",
+      "agent_name": "",
+      "number_of_underperforming_schemes": 1,
+      "total_value_underperforming": 866578.55,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00004583",
+          "scheme_name": "Aditya Birla SL ELSS Tax Relief '96 - Direct (G)",
+          "live_xirr": 11.9783,
+          "benchmark_xirr": 13.865,
+          "xirr_underperformance": 1.89,
+          "current_value": 866578.55,
+          "benchmark_name": "Nifty 500",
+          "category": "ELSS",
+          "amc_name": "Aditya Birla"
+        }
+      ]
+    },
+    {
+      "user_id": "c4989c1b-1343-443f-a77b-79d3ba397086",
+      "client_name": "MAINAK SARKAR",
+      "agent_external_id": "ag_fdYkdSoairSata7UxgxXMD",
+      "agent_name": "UTTIYA MUKHERJEE",
+      "number_of_underperforming_schemes": 1,
+      "total_value_underperforming": 861137.9,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00003359",
+          "scheme_name": "AXIS ELSS Tax Saver Fund (G)",
+          "live_xirr": 12.0828,
+          "benchmark_xirr": 13.4055,
+          "xirr_underperformance": 1.32,
+          "current_value": 861137.9,
+          "benchmark_name": "Nifty 500",
+          "category": "ELSS",
+          "amc_name": "Axis"
+        }
+      ]
+    },
+    {
+      "user_id": "56275fc7-abf5-4fca-8c50-63eb60241c8d",
+      "client_name": "AMIT SINGHAL",
+      "agent_external_id": "",
+      "agent_name": "",
+      "number_of_underperforming_schemes": 1,
+      "total_value_underperforming": 707911.07,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00004991",
+          "scheme_name": "Motilal Oswal Midcap Fund-Dir (G)",
+          "live_xirr": 0.559,
+          "benchmark_xirr": 4.7387,
+          "xirr_underperformance": 4.18,
+          "current_value": 707911.07,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "Motilal Oswal"
+        }
+      ]
+    },
+    {
+      "user_id": "dba9eb30-f2d7-4799-8194-fce23bdb5443",
+      "client_name": "PRAMOD RALHAN",
+      "agent_external_id": "ag_3XDLtubq3rXgPRTLc9bGYN",
+      "agent_name": "SHASHI K RALHAN",
+      "number_of_underperforming_schemes": 1,
+      "total_value_underperforming": 525853.71,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00006857",
+          "scheme_name": "Sundaram Flexi Cap Fund (IDCW)",
+          "live_xirr": 8.3729,
+          "benchmark_xirr": 12.8924,
+          "xirr_underperformance": 4.52,
+          "current_value": 525853.71,
+          "benchmark_name": "Nifty 500",
+          "category": "Flexi Cap Fund",
+          "amc_name": "Sundaram"
+        }
+      ]
+    },
+    {
+      "user_id": "cb8c6896-b919-4e07-b613-978b580036a1",
+      "client_name": "AVNIBEN PURAVKUMAR SHAH",
+      "agent_external_id": "ag_nK9srZigU44vRrtQV2Zm3H",
+      "agent_name": "DHARTIBEN DIPAKBHAI PENDAWALA",
+      "number_of_underperforming_schemes": 2,
+      "total_value_underperforming": 293512.68,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00003686",
+          "scheme_name": "AXIS Midcap Fund (G)",
+          "live_xirr": 14.0639,
+          "benchmark_xirr": 17.3152,
+          "xirr_underperformance": 3.25,
+          "current_value": 101215.5,
+          "benchmark_name": "Nifty MidCap 150",
+          "category": "Mid Cap Fund",
+          "amc_name": "Axis"
+        },
+        {
+          "wpc": "MF00003342",
+          "scheme_name": "AXIS Large Cap Fund (G)",
+          "live_xirr": 9.4889,
+          "benchmark_xirr": 10.6092,
+          "xirr_underperformance": 1.12,
+          "current_value": 192297.18,
+          "benchmark_name": "Nifty 50",
+          "category": "Large Cap Fund",
+          "amc_name": "Axis"
+        }
+      ]
+    },
+    {
+      "user_id": "1c9d2234-5477-4fe2-bb11-44169d771847",
+      "client_name": "MITALKUMARI PUNITKUMAR SHAH",
+      "agent_external_id": "ag_nK9srZigU44vRrtQV2Zm3H",
+      "agent_name": "DHARTIBEN DIPAKBHAI PENDAWALA",
+      "number_of_underperforming_schemes": 1,
+      "total_value_underperforming": 145246.14,
+      "underperforming_schemes": [
+        {
+          "wpc": "MF00000444",
+          "scheme_name": "Nippon India Conservative Hybrid Fund (G)",
+          "live_xirr": 7.0822,
+          "benchmark_xirr": 10.6721,
+          "xirr_underperformance": 3.59,
+          "current_value": 145246.14,
+          "benchmark_name": "Nifty 50",
+          "category": "Conservative Hybrid Fund",
+          "amc_name": "Nippon"
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime, date
 
 
@@ -283,6 +283,138 @@ class PortfolioOpportunity(BaseModel):
     three_year_returns_alpha: Optional[float] = None
     five_year_returns_alpha: Optional[float] = None
     rolling_12q_beat_percentage: Optional[float] = None
+    
+    class Config:
+        from_attributes = True
+
+
+class UnderperformingScheme(BaseModel):
+    """Details of an underperforming scheme"""
+    wpc: str
+    scheme_name: str
+    live_xirr: Optional[float] = None
+    benchmark_xirr: Optional[float] = None
+    xirr_underperformance: Optional[float] = None
+    current_value: float
+    benchmark_name: Optional[str] = None
+    category: Optional[str] = None
+    amc_name: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+
+
+class ClientPortfolioReview(BaseModel):
+    """Portfolio review summary for a client"""
+    user_id: str
+    client_name: Optional[str] = None
+    agent_external_id: Optional[str] = None
+    agent_name: Optional[str] = None
+    number_of_underperforming_schemes: int
+    total_value_underperforming: float
+    underperforming_schemes: List[UnderperformingScheme]
+    
+    class Config:
+        from_attributes = True
+
+
+class PortfolioReviewResponse(BaseModel):
+    """Overall portfolio review response"""
+    total_clients: int
+    total_underperforming_schemes: int
+    total_value_underperforming: float
+    clients: List[ClientPortfolioReview]
+    
+    class Config:
+        from_attributes = True
+
+
+class StagnantSIPOpportunity(BaseModel):
+    """Details of a stagnant SIP opportunity"""
+    user_id: str
+    user_name: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_external_id: Optional[str] = None
+    agent_name: Optional[str] = None
+    sip_meta_id: str
+    scheme_name: Optional[str] = None
+    current_sip: float
+    created_at: Optional[str] = None
+    months_stagnant: Optional[int] = None
+    success_amount: Optional[float] = None
+    
+    class Config:
+        from_attributes = True
+
+
+class StagnantSIPResponse(BaseModel):
+    """Response for stagnant SIP opportunities"""
+    total_stagnant_sips: int
+    total_clients_affected: int
+    total_sip_value: float
+    opportunities: List[StagnantSIPOpportunity]
+    
+    class Config:
+        from_attributes = True
+
+
+class StoppedSIPOpportunity(BaseModel):
+    """Details of a stopped SIP opportunity"""
+    user_id: str
+    user_name: Optional[str] = None
+    agent_external_id: Optional[str] = None
+    agent_name: Optional[str] = None
+    total_sips: int
+    active_sips: int
+    max_success_count: int
+    lifetime_success_amount: Optional[float] = None
+    last_success_date: Optional[str] = None
+    days_since_any_success: Optional[int] = None
+    months_since_success: Optional[int] = None
+    
+    class Config:
+        from_attributes = True
+
+
+class StoppedSIPResponse(BaseModel):
+    """Response for stopped SIP opportunities"""
+    total_stopped_clients: int
+    total_active_sips_affected: int
+    total_lifetime_investment: float
+    average_days_inactive: Optional[float] = None
+    opportunities: List[StoppedSIPOpportunity]
+    
+    class Config:
+        from_attributes = True
+
+
+class InsuranceGapOpportunity(BaseModel):
+    """Details of an insurance gap opportunity"""
+    user_id: str
+    user_name: Optional[str] = None
+    agent_external_id: Optional[str] = None
+    agent_name: Optional[str] = None
+    age: Optional[int] = None
+    mf_current_value: Optional[float] = None
+    total_premium: float
+    expected_premium: float
+    insurance_status: str  # NO_INSURANCE, LOW_COVERAGE, COVERED
+    premium_opportunity_value: float
+    coverage_percentage: Optional[float] = None
+    
+    class Config:
+        from_attributes = True
+
+
+class InsuranceGapResponse(BaseModel):
+    """Response for insurance gap opportunities"""
+    total_opportunities: int
+    no_insurance_count: int
+    low_coverage_count: int
+    total_opportunity_value: float
+    total_mf_value_at_risk: float
+    average_age: Optional[float] = None
+    opportunities: List[InsuranceGapOpportunity]
     
     class Config:
         from_attributes = True

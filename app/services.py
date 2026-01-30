@@ -844,3 +844,532 @@ def get_portfolio_statistics(
         'concentrated_holdings_count': concentrated_count,
         'category_breakdown': category_dict
     }
+
+
+def get_portfolio_review_opportunities(
+    db: Session,
+    agent_external_id: Optional[str] = None
+):
+    """
+    Get portfolio review opportunities - underperforming schemes grouped by clients.
+    
+    Criteria:
+    - live_xirr < benchmark_xirr (underperforming schemes)
+    - Group by client
+    - Show scheme details and aggregated metrics
+    
+    Args:
+        db: Database session
+        agent_external_id: Optional filter by agent's external ID
+        
+    Returns:
+        Dictionary with client portfolio review data
+    """
+    from app.schemas import UnderperformingScheme, ClientPortfolioReview
+    from collections import defaultdict
+    
+    # Build query to get underperforming schemes with user details
+    query = db.query(
+        PortfolioHolding.user_id,
+        PortfolioHolding.wpc,
+        PortfolioHolding.scheme_name,
+        PortfolioHolding.live_xirr,
+        PortfolioHolding.benchmark_xirr,
+        PortfolioHolding.current_value,
+        PortfolioHolding.benchmark_name,
+        PortfolioHolding.category,
+        PortfolioHolding.amc_name,
+        User.name.label('client_name'),
+        User.agent_external_id,
+        User.agent_name
+    ).join(
+        User, PortfolioHolding.user_id == User.user_id
+    ).filter(
+        PortfolioHolding.live_xirr.isnot(None),
+        PortfolioHolding.benchmark_xirr.isnot(None),
+        PortfolioHolding.live_xirr < PortfolioHolding.benchmark_xirr,
+        PortfolioHolding.current_value > 0
+    )
+    
+    # Filter by agent if provided
+    if agent_external_id:
+        query = query.filter(User.agent_external_id == agent_external_id)
+    
+    # Execute query
+    results = query.all()
+    
+    # Group by client
+    client_data = defaultdict(lambda: {
+        'client_name': None,
+        'agent_external_id': None,
+        'agent_name': None,
+        'schemes': [],
+        'total_value': 0.0,
+        'count': 0
+    })
+    
+    for row in results:
+        user_id = row.user_id
+        
+        # Calculate underperformance
+        xirr_underperformance = (row.benchmark_xirr or 0) - (row.live_xirr or 0)
+        
+        # Add scheme to client's data
+        client_data[user_id]['client_name'] = row.client_name
+        client_data[user_id]['agent_external_id'] = row.agent_external_id
+        client_data[user_id]['agent_name'] = row.agent_name
+        client_data[user_id]['total_value'] += row.current_value or 0
+        client_data[user_id]['count'] += 1
+        
+        client_data[user_id]['schemes'].append(
+            UnderperformingScheme(
+                wpc=row.wpc or '',
+                scheme_name=row.scheme_name or '',
+                live_xirr=row.live_xirr,
+                benchmark_xirr=row.benchmark_xirr,
+                xirr_underperformance=round(xirr_underperformance, 2) if xirr_underperformance else None,
+                current_value=row.current_value or 0,
+                benchmark_name=row.benchmark_name,
+                category=row.category,
+                amc_name=row.amc_name
+            )
+        )
+    
+    # Build client portfolio review list
+    clients = []
+    total_schemes = 0
+    total_value = 0.0
+    
+    for user_id, data in client_data.items():
+        # Sort schemes by underperformance (highest first)
+        sorted_schemes = sorted(
+            data['schemes'],
+            key=lambda x: x.xirr_underperformance or 0,
+            reverse=True
+        )
+        
+        clients.append(
+            ClientPortfolioReview(
+                user_id=user_id,
+                client_name=data['client_name'],
+                agent_external_id=data['agent_external_id'],
+                agent_name=data['agent_name'],
+                number_of_underperforming_schemes=data['count'],
+                total_value_underperforming=round(data['total_value'], 2),
+                underperforming_schemes=sorted_schemes
+            )
+        )
+        
+        total_schemes += data['count']
+        total_value += data['total_value']
+    
+    # Sort clients by total underperforming value (highest first)
+    clients.sort(key=lambda x: x.total_value_underperforming, reverse=True)
+    
+    return {
+        'total_clients': len(clients),
+        'total_underperforming_schemes': total_schemes,
+        'total_value_underperforming': round(total_value, 2),
+        'clients': clients
+    }
+
+
+def get_stagnant_sip_opportunities(
+    db: Session,
+    agent_id: Optional[str] = None,
+    agent_external_id: Optional[str] = None,
+    min_months: int = 6,
+    limit: int = 100
+):
+    """
+    Find stagnant SIPs - SIPs that haven't increased in the last N months and have step-up disabled.
+    
+    Criteria:
+    - Must be active (is_active = "true")
+    - Created more than min_months ago
+    - No step-up configured (increment_amount = 0/NULL AND increment_percentage = 0/NULL)
+    - Optionally filtered by agent_id or agent_external_id
+    
+    Args:
+        db: Database session
+        agent_id: Optional filter by internal agent ID
+        agent_external_id: Optional filter by external agent ID (preferred)
+        min_months: Minimum months of stagnation (default: 6)
+        limit: Maximum number of results (default: 100)
+        
+    Returns:
+        Dictionary with stagnant SIP opportunities
+    """
+    from app.schemas import StagnantSIPOpportunity
+    from datetime import datetime
+    from dateutil import parser as date_parser
+    
+    # Build query
+    query = db.query(
+        SIPRecord.user_id,
+        SIPRecord.sip_meta_id,
+        SIPRecord.scheme_name,
+        SIPRecord.amount,
+        SIPRecord.created_at,
+        SIPRecord.increment_amount,
+        SIPRecord.increment_percentage,
+        SIPRecord.is_active,
+        SIPRecord.current_sip_status,
+        SIPRecord.success_amount,
+        SIPRecord.agent_id,
+        SIPRecord.agent_external_id,
+        User.name.label('user_name'),
+        User.agent_name
+    ).outerjoin(
+        User, SIPRecord.user_id == User.user_id
+    ).filter(
+        SIPRecord.is_active == "true"
+    )
+    
+    # Filter by agent if provided (prefer external_id over internal id)
+    if agent_external_id:
+        query = query.filter(SIPRecord.agent_external_id == agent_external_id)
+    elif agent_id:
+        query = query.filter(SIPRecord.agent_id == agent_id)
+    
+    # Get all records
+    results = query.all()
+    
+    # Filter and process
+    opportunities = []
+    current_date = datetime.now()
+    
+    for row in results:
+        # Check if step-up is disabled
+        increment_amount = row.increment_amount or 0
+        increment_percentage = row.increment_percentage or 0
+        
+        if increment_amount == 0 and increment_percentage == 0:
+            # Calculate months stagnant
+            created_at = parse_date_safe(row.created_at)
+            if created_at:
+                months_diff = (current_date.year - created_at.year) * 12 + (current_date.month - created_at.month)
+                
+                # Only include if stagnant for at least min_months
+                if months_diff >= min_months:
+                    opportunities.append(
+                        StagnantSIPOpportunity(
+                            user_id=row.user_id or '',
+                            user_name=row.user_name,
+                            agent_id=row.agent_id,
+                            agent_external_id=row.agent_external_id,
+                            agent_name=row.agent_name,
+                            sip_meta_id=row.sip_meta_id or '',
+                            scheme_name=row.scheme_name,
+                            current_sip=row.amount or 0,
+                            created_at=row.created_at,
+                            months_stagnant=months_diff,
+                            # increment_amount=row.increment_amount,
+                            # increment_percentage=row.increment_percentage,
+                            # is_active=row.is_active,
+                            # current_sip_status=row.current_sip_status,
+                            success_amount=row.success_amount
+                        )
+                    )
+    
+    # Sort by months stagnant (oldest first) and limit
+    opportunities.sort(key=lambda x: x.months_stagnant or 0, reverse=True)
+    opportunities = opportunities[:limit]
+    
+    # Calculate totals
+    total_sips = len(opportunities)
+    unique_clients = len(set(opp.user_id for opp in opportunities))
+    total_sip_value = sum(opp.current_sip for opp in opportunities)
+    
+    return {
+        'total_stagnant_sips': total_sips,
+        'total_clients_affected': unique_clients,
+        'total_sip_value': round(total_sip_value, 2),
+        'opportunities': opportunities
+    }
+
+
+def get_stopped_sip_opportunities(
+    db: Session,
+    agent_external_id: Optional[str] = None,
+    min_success_count: int = 3,
+    min_inactive_months: int = 2,
+    limit: int = 100
+):
+    """
+    Find stopped SIPs - SIPs that are active but haven't had successful payments recently.
+    
+    Criteria:
+    - User has had at least min_success_count successful SIP transactions (default: 3)
+    - Last successful payment was more than min_inactive_months ago (default: 2 months)
+    - User still has at least one active SIP
+    - Not deleted
+    
+    These indicate payment failures, expired mandates, or other issues requiring intervention.
+    
+    Args:
+        db: Database session
+        agent_external_id: Optional filter by external agent ID
+        min_success_count: Minimum successful transactions required (default: 3)
+        min_inactive_months: Minimum months since last success (default: 2)
+        limit: Maximum number of results (default: 100)
+        
+    Returns:
+        Dictionary with stopped SIP opportunities
+    """
+    from app.schemas import StoppedSIPOpportunity
+    from datetime import datetime, timedelta
+    from sqlalchemy import func as sql_func, case
+    
+    # Build subquery to aggregate user SIP data
+    user_sip_summary = db.query(
+        SIPRecord.user_id,
+        SIPRecord.agent_external_id,
+        sql_func.max(SIPRecord.success_count).label('max_success_count'),
+        sql_func.max(SIPRecord.latest_success_order_date).label('last_success_date'),
+        sql_func.max(SIPRecord.is_active).label('has_any_active_sip'),
+        sql_func.count(SIPRecord.id).label('total_sips'),
+        sql_func.sum(
+            case(
+                (SIPRecord.is_active == "true", 1),
+                else_=0
+            )
+        ).label('active_sips'),
+        sql_func.sum(SIPRecord.success_amount).label('lifetime_success_amount')
+    ).filter(
+        SIPRecord.deleted == "false"
+    ).group_by(
+        SIPRecord.user_id,
+        SIPRecord.agent_external_id
+    ).subquery()
+    
+    # Main query with filters
+    query = db.query(
+        user_sip_summary.c.user_id,
+        user_sip_summary.c.agent_external_id,
+        user_sip_summary.c.total_sips,
+        user_sip_summary.c.active_sips,
+        user_sip_summary.c.max_success_count,
+        user_sip_summary.c.lifetime_success_amount,
+        user_sip_summary.c.last_success_date,
+        User.name.label('user_name'),
+        User.agent_name
+    ).outerjoin(
+        User, user_sip_summary.c.user_id == User.user_id
+    ).filter(
+        user_sip_summary.c.max_success_count >= min_success_count,
+        user_sip_summary.c.has_any_active_sip == "true"
+    )
+    
+    # Filter by agent if provided
+    if agent_external_id:
+        query = query.filter(user_sip_summary.c.agent_external_id == agent_external_id)
+    
+    # Execute query
+    results = query.all()
+    
+    # Filter by date and process
+    opportunities = []
+    current_date = datetime.now()
+    cutoff_date = current_date - timedelta(days=min_inactive_months * 30)
+    
+    for row in results:
+        last_success_date = parse_date_safe(row.last_success_date)
+        
+        if last_success_date and last_success_date < cutoff_date:
+            days_since = (current_date - last_success_date).days
+            months_since = days_since // 30
+            
+            opportunities.append(
+                StoppedSIPOpportunity(
+                    user_id=row.user_id or '',
+                    user_name=row.user_name,
+                    agent_external_id=row.agent_external_id,
+                    agent_name=row.agent_name,
+                    total_sips=int(row.total_sips) if row.total_sips else 0,
+                    active_sips=int(row.active_sips) if row.active_sips else 0,
+                    max_success_count=int(row.max_success_count) if row.max_success_count else 0,
+                    lifetime_success_amount=row.lifetime_success_amount,
+                    last_success_date=row.last_success_date,
+                    days_since_any_success=days_since,
+                    months_since_success=months_since
+                )
+            )
+    
+    # Sort by days since success (most critical first)
+    opportunities.sort(key=lambda x: x.days_since_any_success or 0, reverse=True)
+    opportunities = opportunities[:limit]
+    
+    # Calculate totals
+    total_clients = len(opportunities)
+    total_active_sips = sum(opp.active_sips for opp in opportunities)
+    total_lifetime = sum(opp.lifetime_success_amount or 0 for opp in opportunities)
+    avg_days = sum(opp.days_since_any_success or 0 for opp in opportunities) / total_clients if total_clients > 0 else 0
+    
+    return {
+        'total_stopped_clients': total_clients,
+        'total_active_sips_affected': total_active_sips,
+        'total_lifetime_investment': round(total_lifetime, 2),
+        'average_days_inactive': round(avg_days, 1) if avg_days > 0 else None,
+        'opportunities': opportunities
+    }
+
+
+def get_insurance_gap_opportunities(
+    db: Session,
+    agent_external_id: Optional[str] = None,
+    min_mf_value: float = 500000.0,
+    min_age: int = 30,
+    limit: int = 100
+):
+    """
+    Find insurance gap opportunities - clients with high MF value but no/low insurance coverage.
+    
+    Identifies two types of opportunities:
+    1. NO_INSURANCE: Clients with no insurance and age >= min_age
+    2. LOW_COVERAGE: Clients whose premium is below expected based on age and MF value
+    
+    Expected premium calculation (as % of MF current value):
+    - Age < 30: 0.05%
+    - Age 30-39: 0.1%
+    - Age 40-49: 0.2%
+    - Age 50+: 0.3%
+    
+    Args:
+        db: Database session
+        agent_external_id: Optional filter by external agent ID
+        min_mf_value: Minimum MF portfolio value (default: 500000)
+        min_age: Minimum age for NO_INSURANCE flag (default: 30)
+        limit: Maximum number of results (default: 100)
+        
+    Returns:
+        Dictionary with insurance gap opportunities
+    """
+    from app.schemas import InsuranceGapOpportunity
+    from datetime import datetime, date
+    from sqlalchemy import func as sql_func
+    
+    # Aggregate insurance premiums per user
+    insurance_agg = db.query(
+        InsuranceRecord.user_id,
+        sql_func.sum(InsuranceRecord.premium).label('total_premium')
+    ).filter(
+        InsuranceRecord.deleted == "false",
+        InsuranceRecord.premium > 0
+    ).group_by(
+        InsuranceRecord.user_id
+    ).subquery()
+    
+    # Query users with high MF value
+    query = db.query(
+        User.user_id,
+        User.name,
+        User.agent_external_id,
+        User.agent_name,
+        User.date_of_birth,
+        User.mf_current_value,
+        insurance_agg.c.total_premium
+    ).outerjoin(
+        insurance_agg, User.user_id == insurance_agg.c.user_id
+    ).filter(
+        User.mf_current_value > min_mf_value
+    )
+    
+    # Filter by agent if provided
+    if agent_external_id:
+        query = query.filter(User.agent_external_id == agent_external_id)
+    
+    # Execute query
+    results = query.all()
+    
+    # Process and calculate opportunities
+    opportunities = []
+    current_year = datetime.now().year
+    
+    for row in results:
+        # Calculate age from date_of_birth
+        age = None
+        if row.date_of_birth:
+            if isinstance(row.date_of_birth, date):
+                age = current_year - row.date_of_birth.year
+            elif isinstance(row.date_of_birth, str):
+                try:
+                    dob = datetime.strptime(row.date_of_birth, '%Y-%m-%d').date()
+                    age = current_year - dob.year
+                except:
+                    pass
+        
+        # Skip if age couldn't be calculated
+        if age is None:
+            continue
+        
+        mf_value = row.mf_current_value or 0
+        total_premium = row.total_premium or 0
+        
+        # Calculate expected premium based on age
+        if age < 30:
+            expected_rate = 0.0005  # 0.05%
+        elif age < 40:
+            expected_rate = 0.001   # 0.1%
+        elif age < 50:
+            expected_rate = 0.002   # 0.2%
+        else:
+            expected_rate = 0.003   # 0.3%
+        
+        expected_premium = mf_value * expected_rate
+        
+        # Determine insurance status
+        insurance_status = None
+        premium_opportunity = 0
+        
+        if total_premium == 0 and age >= min_age:
+            insurance_status = 'NO_INSURANCE'
+            premium_opportunity = expected_premium
+        elif total_premium < expected_premium:
+            insurance_status = 'LOW_COVERAGE'
+            premium_opportunity = expected_premium - total_premium
+        else:
+            insurance_status = 'COVERED'
+            premium_opportunity = 0
+        
+        # Only include opportunities (not COVERED)
+        if insurance_status in ['NO_INSURANCE', 'LOW_COVERAGE']:
+            coverage_pct = (total_premium / expected_premium * 100) if expected_premium > 0 else 0
+            
+            opportunities.append(
+                InsuranceGapOpportunity(
+                    user_id=row.user_id or '',
+                    user_name=row.name,
+                    agent_external_id=row.agent_external_id,
+                    agent_name=row.agent_name,
+                    age=age,
+                    mf_current_value=mf_value,
+                    total_premium=total_premium,
+                    expected_premium=round(expected_premium, 2),
+                    insurance_status=insurance_status,
+                    premium_opportunity_value=round(premium_opportunity, 2),
+                    coverage_percentage=round(coverage_pct, 1)
+                )
+            )
+    
+    # Sort by opportunity value (highest first)
+    opportunities.sort(key=lambda x: x.premium_opportunity_value, reverse=True)
+    opportunities = opportunities[:limit]
+    
+    # Calculate statistics
+    total_opps = len(opportunities)
+    no_insurance = sum(1 for opp in opportunities if opp.insurance_status == 'NO_INSURANCE')
+    low_coverage = sum(1 for opp in opportunities if opp.insurance_status == 'LOW_COVERAGE')
+    total_opp_value = sum(opp.premium_opportunity_value for opp in opportunities)
+    total_mf_value = sum(opp.mf_current_value or 0 for opp in opportunities)
+    avg_age = sum(opp.age or 0 for opp in opportunities) / total_opps if total_opps > 0 else 0
+    
+    return {
+        'total_opportunities': total_opps,
+        'no_insurance_count': no_insurance,
+        'low_coverage_count': low_coverage,
+        'total_opportunity_value': round(total_opp_value, 2),
+        'total_mf_value_at_risk': round(total_mf_value, 2),
+        'average_age': round(avg_age, 1) if avg_age > 0 else None,
+        'opportunities': opportunities
+    }

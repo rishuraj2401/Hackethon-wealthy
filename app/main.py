@@ -38,11 +38,14 @@ def read_root():
                 "no_increase": "/api/opportunities/no-sip-increase",
                 "failed": "/api/opportunities/failed-sips",
                 "inactive": "/api/opportunities/high-value-inactive",
+                "stagnant": "/api/opportunities/stagnant-sips",
+                "stopped": "/api/opportunities/stopped-sips",
                 "stats": "/api/opportunities/stats"
             },
             "insurance_opportunities": {
                 "gaps": "/api/insurance/opportunities/gaps",
                 "no_coverage": "/api/insurance/opportunities/no-coverage",
+                "coverage_gaps": "/api/insurance/opportunities/coverage-gaps",
                 "stats": "/api/insurance/stats"
             },
             "portfolio_opportunities": {
@@ -50,6 +53,7 @@ def read_root():
                 "underperforming": "/api/portfolio/opportunities/underperforming",
                 "low_rated": "/api/portfolio/opportunities/low-rated",
                 "concentration": "/api/portfolio/opportunities/concentration",
+                "review": "/api/portfolio/review-opportunities",
                 "stats": "/api/portfolio/stats"
             },
             "clients": {
@@ -130,6 +134,100 @@ def get_high_value_inactive_opportunities(
     )
 
 
+@app.get("/api/opportunities/stagnant-sips", response_model=schemas.StagnantSIPResponse)
+def get_stagnant_sip_opportunities(
+    agent_id: Optional[str] = Query(None, description="Filter by internal agent ID"),
+    agent_external_id: Optional[str] = Query(None, description="Filter by external agent ID (preferred)"),
+    min_months: int = Query(6, ge=1, description="Minimum months of stagnation"),
+    limit: int = Query(100, ge=1, le=1000, description="Maximum number of results"),
+    db: Session = Depends(get_db)
+):
+    """
+    Get stagnant SIP opportunities - SIPs that haven't increased and have step-up disabled.
+    
+    A SIP is considered "stagnant" when:
+    - It is currently active (is_active = true)
+    - It was created more than min_months ago (default: 6 months)
+    - It has NO step-up configured:
+      - increment_amount is NULL or 0
+      - increment_percentage is NULL or 0
+    
+    These represent opportunities to:
+    - Enable step-up/increment features
+    - Increase SIP amounts manually
+    - Review and optimize investment strategy
+    
+    Query Parameters:
+    - agent_id: Optional filter by internal agent ID
+    - agent_external_id: Optional filter by external agent ID (preferred, e.g., ag_xyz123)
+    - min_months: Minimum months since creation (default: 6)
+    - limit: Maximum number of results (default: 100)
+    
+    Note: If both agent_id and agent_external_id are provided, agent_external_id takes precedence
+    
+    Returns:
+    - total_stagnant_sips: Total count of stagnant SIPs
+    - total_clients_affected: Number of unique clients with stagnant SIPs
+    - total_sip_value: Sum of all stagnant SIP amounts
+    - opportunities: List of stagnant SIP details sorted by months stagnant (oldest first)
+    """
+    return services.get_stagnant_sip_opportunities(
+        db, agent_id=agent_id, agent_external_id=agent_external_id, 
+        min_months=min_months, limit=limit
+    )
+
+
+@app.get("/api/opportunities/stopped-sips", response_model=schemas.StoppedSIPResponse)
+def get_stopped_sip_opportunities(
+    agent_external_id: Optional[str] = Query(None, description="Filter by external agent ID"),
+    min_success_count: int = Query(3, ge=1, description="Minimum successful transactions required"),
+    min_inactive_months: int = Query(2, ge=1, description="Minimum months since last success"),
+    limit: int = Query(100, ge=1, le=1000, description="Maximum number of results"),
+    db: Session = Depends(get_db)
+):
+    """
+    Get stopped SIP opportunities - Active SIPs that haven't had successful payments recently.
+    
+    A SIP is considered "stopped" when:
+    - User has had at least min_success_count successful transactions (default: 3)
+      - This confirms they were previously active and engaged
+    - Last successful payment was more than min_inactive_months ago (default: 2 months)
+    - User still has at least one active SIP in the system
+    - Records are not deleted
+    
+    These typically indicate:
+    - Payment failures (insufficient funds, card expired, etc.)
+    - Expired or cancelled mandates
+    - Bank account issues
+    - User-initiated pauses or stops
+    
+    Intervention opportunities:
+    - Mandate renewal
+    - Payment method update
+    - Re-engagement campaigns
+    - Understanding reasons for stopping
+    
+    Query Parameters:
+    - agent_external_id: Optional filter by external agent ID (e.g., ag_xyz123)
+    - min_success_count: Minimum past successful transactions (default: 3)
+    - min_inactive_months: Minimum months without success (default: 2)
+    - limit: Maximum number of results (default: 100)
+    
+    Returns:
+    - total_stopped_clients: Number of clients with stopped SIPs
+    - total_active_sips_affected: Total count of active SIPs that are stopped
+    - total_lifetime_investment: Sum of all lifetime investments
+    - average_days_inactive: Average days since last successful payment
+    - opportunities: List sorted by days inactive (most critical first)
+    """
+    return services.get_stopped_sip_opportunities(
+        db, agent_external_id=agent_external_id,
+        min_success_count=min_success_count,
+        min_inactive_months=min_inactive_months,
+        limit=limit
+    )
+
+
 @app.get("/api/opportunities/stats", response_model=schemas.OpportunityStats)
 def get_opportunity_stats(
     agent_id: Optional[str] = None,
@@ -197,6 +295,70 @@ def get_insurance_statistics(
 ):
     """Get insurance portfolio statistics"""
     return services.get_insurance_statistics(db, agent_id=agent_id)
+
+
+@app.get("/api/insurance/opportunities/coverage-gaps", response_model=schemas.InsuranceGapResponse)
+def get_insurance_coverage_gaps(
+    agent_external_id: Optional[str] = Query(None, description="Filter by external agent ID"),
+    min_mf_value: float = Query(500000.0, ge=0, description="Minimum MF portfolio value"),
+    min_age: int = Query(30, ge=18, le=100, description="Minimum age for NO_INSURANCE flag"),
+    limit: int = Query(100, ge=1, le=1000, description="Maximum number of results"),
+    db: Session = Depends(get_db)
+):
+    """
+    Get insurance coverage gap opportunities for high-value clients.
+    
+    This endpoint identifies clients with significant mutual fund investments who have
+    inadequate or no insurance coverage, representing cross-sell opportunities.
+    
+    Coverage Assessment Logic:
+    
+    1. Target Audience:
+       - Clients with MF portfolio > min_mf_value (default: ₹5 lakhs)
+       - Must have date of birth in system for age calculation
+    
+    2. Expected Premium Calculation (as % of MF current value):
+       - Age < 30: 0.05% of MF value
+       - Age 30-39: 0.1% of MF value
+       - Age 40-49: 0.2% of MF value
+       - Age 50+: 0.3% of MF value
+    
+    3. Insurance Status:
+       - NO_INSURANCE: Zero premium paid and age >= min_age
+       - LOW_COVERAGE: Current premium < expected premium
+       - COVERED: Adequate coverage (not returned)
+    
+    4. Opportunity Value:
+       - Gap between expected and actual premium
+       - Represents potential additional premium revenue
+    
+    Use Cases:
+    - Cross-selling insurance to wealthy MF investors
+    - Identifying underinsured clients
+    - Portfolio risk management
+    - Agent commission opportunities
+    
+    Query Parameters:
+    - agent_external_id: Optional filter by external agent ID
+    - min_mf_value: Minimum MF value to qualify (default: ₹500,000)
+    - min_age: Minimum age for NO_INSURANCE classification (default: 30)
+    - limit: Maximum results (default: 100)
+    
+    Returns:
+    - total_opportunities: Count of clients with gaps
+    - no_insurance_count: Clients with zero coverage
+    - low_coverage_count: Clients with insufficient coverage
+    - total_opportunity_value: Sum of all premium gaps
+    - total_mf_value_at_risk: Total MF value of uncovered/underinsured clients
+    - average_age: Average age of opportunity clients
+    - opportunities: List sorted by opportunity value (highest first)
+    """
+    return services.get_insurance_gap_opportunities(
+        db, agent_external_id=agent_external_id,
+        min_mf_value=min_mf_value,
+        min_age=min_age,
+        limit=limit
+    )
 
 
 @app.get("/api/clients/{user_id}/insurance", response_model=List[schemas.InsuranceRecordResponse])
@@ -338,6 +500,43 @@ def get_client_portfolio(
 ):
     """Get all portfolio holdings for a specific client"""
     return services.get_user_portfolio_holdings(db, user_id, limit=limit)
+
+
+@app.get("/api/portfolio/review-opportunities", response_model=schemas.PortfolioReviewResponse)
+def get_portfolio_review_opportunities(
+    agent_external_id: Optional[str] = Query(None, description="Filter by agent's external ID"),
+    db: Session = Depends(get_db)
+):
+    """
+    Get portfolio review opportunities - underperforming schemes grouped by clients.
+    
+    This endpoint identifies schemes where live_xirr < benchmark_xirr (underperforming).
+    
+    Results are grouped by client showing:
+    - Number of underperforming schemes per client
+    - Total value of underperforming schemes per client
+    - Client details (name, ID)
+    - List of underperforming schemes with details:
+      - Scheme WPC
+      - Scheme name
+      - Live XIRR
+      - Benchmark XIRR
+      - XIRR underperformance (difference)
+      - Current value
+      - Benchmark name
+      - Category
+      - AMC name
+    
+    Query Parameters:
+    - agent_external_id: Optional filter to show only clients of a specific agent
+    
+    Returns:
+    - total_clients: Number of clients with underperforming schemes
+    - total_underperforming_schemes: Total count of underperforming schemes
+    - total_value_underperforming: Total value across all underperforming schemes
+    - clients: List of clients with their underperforming schemes
+    """
+    return services.get_portfolio_review_opportunities(db, agent_external_id=agent_external_id)
 
 
 if __name__ == "__main__":
