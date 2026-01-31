@@ -1,4 +1,5 @@
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 import os
 import json
 from dotenv import load_dotenv
@@ -9,13 +10,17 @@ load_dotenv()
 # --- CONFIGURATION ---
 # Get API key from environment variable (recommended) or hardcode
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', 'your-api-key-here')
-genai.configure(api_key=GOOGLE_API_KEY)
 
-# Create model instance
-# Use model name that works with v1beta API
-model = genai.GenerativeModel(
-    model_name='models/gemini-flash-latest',
-    generation_config={"response_mime_type": "application/json"}
+# Create client instance with the new SDK
+client = genai.Client(api_key=GOOGLE_API_KEY)
+
+# Model configuration
+MODEL_NAME = 'gemini-2.0-flash'  # Fast model optimized for speed
+GENERATION_CONFIG = types.GenerateContentConfig(
+    response_mime_type="application/json",
+    temperature=0.2,  # Lower temperature for faster, more focused responses
+    top_p=0.8,
+    top_k=40
 )
 
 SYSTEM_PROMPT = """
@@ -108,8 +113,12 @@ def generate_dashboard_insight(portfolio_data, stagnant_data, stopped_data, insu
         {json.dumps(insurance_data, default=str)}
         """
 
-        # Generate content with Gemini
-        response = model.generate_content(SYSTEM_PROMPT + input_payload)
+        # Generate content with Gemini using new SDK
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=SYSTEM_PROMPT + input_payload,
+            config=GENERATION_CONFIG
+        )
         return json.loads(response.text)
 
     except Exception as e:
@@ -118,9 +127,10 @@ def generate_dashboard_insight(portfolio_data, stagnant_data, stopped_data, insu
         return {
             "dashboard_hero": {
                 "total_opportunity_value": 0,
-                "formatted_value": "Calculating...",
-                "executive_summary": "AI is analyzing your client data. Please refresh shortly.",
+                "formatted_value": "Error",
+                "executive_summary": f"Error generating insights: {str(e)}",
                 "opportunity_breakdown": {"insurance": "0", "sip_recovery": "0", "portfolio_rebalancing": "0"}
             },
-            "top_focus_clients": []
+            "top_focus_clients": [],
+            "error": str(e)
         }

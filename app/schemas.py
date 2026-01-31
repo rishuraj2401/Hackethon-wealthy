@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from typing import Optional, List
 from datetime import datetime, date
 
@@ -337,11 +337,30 @@ class StagnantSIPOpportunity(BaseModel):
     agent_external_id: Optional[str] = None
     agent_name: Optional[str] = None
     sip_meta_id: str
-    scheme_name: Optional[str] = None
+    scheme_name: Optional[List[str]] = None
     current_sip: float
     created_at: Optional[str] = None
     months_stagnant: Optional[int] = None
     success_amount: Optional[float] = None
+    
+    @field_validator('scheme_name', mode='before')
+    @classmethod
+    def parse_scheme_name(cls, v):
+        """Parse scheme_name from various formats to list"""
+        if v is None or v == '' or v == '[]':
+            return None
+        if isinstance(v, list):
+            return v
+        if isinstance(v, str):
+            # Handle string that looks like array: "[Fund1, Fund2]"
+            v = v.strip()
+            if v.startswith('[') and v.endswith(']'):
+                # Remove brackets and split
+                v = v[1:-1]
+                return [name.strip() for name in v.split(',') if name.strip()]
+            # Single scheme name
+            return [v] if v else None
+        return None
     
     class Config:
         from_attributes = True

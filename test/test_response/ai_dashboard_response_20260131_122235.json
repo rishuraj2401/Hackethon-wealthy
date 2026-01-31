@@ -1,0 +1,311 @@
+{
+  "dashboard_hero": {
+    "total_opportunity_value": "1251838.67",
+    "formatted_value": "\u20b912.5 Lakhs",
+    "executive_summary": "Identified \u20b912.5 Lakhs in potential value across multiple clients through SIP optimization, portfolio rebalancing, and insurance gap coverage.",
+    "opportunity_breakdown": {
+      "insurance": "\u20b99.48L",
+      "sip_recovery": "\u20b92.04L",
+      "portfolio_rebalancing": "\u20b999.36K"
+    }
+  },
+  "top_focus_clients": [
+    {
+      "user_id": "43003797-8dfb-482a-abe3-2b48a4a83d0f",
+      "client_name": "PUNEET DUDEJA",
+      "total_impact_value": "\u20b91.82 L",
+      "tags": [
+        "Risk: Portfolio Underperformance",
+        "Opp: Insurance"
+      ],
+      "pitch_hook": "Potential advisory fee impact due to underperforming schemes. Significant insurance gap identified.",
+      "drill_down_details": {
+        "portfolio_review": {
+          "has_issue": true,
+          "schemes": [
+            {
+              "name": "Nippon India Growth Mid Cap Fund - (G)",
+              "xirr_lag": 5.29
+            }
+          ]
+        },
+        "sip_health": {
+          "stopped_sips": [],
+          "stagnant_sips": []
+        },
+        "insurance": {
+          "has_gap": true,
+          "gap_amount": 82266.79,
+          "wealth_band": null
+        }
+      }
+    },
+    {
+      "user_id": "5d6ef0c1-6594-4921-aa55-e92399992c7a",
+      "client_name": "MUTHUSAMY SURESH BABU",
+      "total_impact_value": "\u20b991.17 K",
+      "tags": [
+        "Risk: Portfolio Underperformance",
+        "Opp: Insurance"
+      ],
+      "pitch_hook": "Multiple underperforming schemes detected. Insurance coverage is missing.",
+      "drill_down_details": {
+        "portfolio_review": {
+          "has_issue": true,
+          "schemes": [
+            {
+              "name": "ICICI Pru Equity & Debt Fund - (G)",
+              "xirr_lag": 8.61
+            },
+            {
+              "name": "Kotak Focused Fund (G)",
+              "xirr_lag": 6.66
+            },
+            {
+              "name": "AXIS Flexi Cap Fund (G)",
+              "xirr_lag": 5.25
+            },
+            {
+              "name": "AXIS Retirement Savings Fund - AP - Reg (G)",
+              "xirr_lag": 4.58
+            },
+            {
+              "name": "AXIS Aggressive Hybrid Fund - Regular (G)",
+              "xirr_lag": 1.21
+            }
+          ]
+        },
+        "sip_health": {
+          "stopped_sips": [],
+          "stagnant_sips": []
+        },
+        "insurance": {
+          "has_gap": true,
+          "gap_amount": 19557.18,
+          "wealth_band": null
+        }
+      }
+    },
+    {
+      "user_id": "67e905d6-cc60-4d3b-82f2-82f80862173d",
+      "client_name": "ABHEEPSA GUPTA",
+      "total_impact_value": "\u20b91.81 L",
+      "tags": [
+        "Opp: Insurance"
+      ],
+      "pitch_hook": "Significant insurance gap identified for a high-value portfolio.",
+      "drill_down_details": {
+        "portfolio_review": {
+          "has_issue": false,
+          "schemes": []
+        },
+        "sip_health": {
+          "stopped_sips": [],
+          "stagnant_sips": []
+        },
+        "insurance": {
+          "has_gap": true,
+          "gap_amount": 180888.53,
+          "wealth_band": null
+        }
+      }
+    },
+    {
+      "user_id": "f70539a5-fd7b-45e5-a358-2f080cdfdb43",
+      "client_name": "KAYUR MEHTA",
+      "total_impact_value": "\u20b985.88 K",
+      "tags": [
+        "Opp: Insurance"
+      ],
+      "pitch_hook": "Insurance coverage is missing; potential risk exposure.",
+      "drill_down_details": {
+        "portfolio_review": {
+          "has_issue": false,
+          "schemes": []
+        },
+        "sip_health": {
+          "stopped_sips": [],
+          "stagnant_sips": []
+        },
+        "insurance": {
+          "has_gap": true,
+          "gap_amount": 85884.42,
+          "wealth_band": null
+        }
+      }
+    },
+    {
+      "user_id": "506ca30f-3297-45bf-a9bd-02faa51db581",
+      "client_name": "NISHA SHRIVASTAVA",
+      "total_impact_value": "\u20b967.21 K",
+      "tags": [
+        "Opp: Insurance"
+      ],
+      "pitch_hook": "Low insurance coverage detected; opportunity to enhance protection.",
+      "drill_down_details": {
+        "portfolio_review": {
+          "has_issue": false,
+          "schemes": []
+        },
+        "sip_health": {
+          "stopped_sips": [],
+          "stagnant_sips": []
+        },
+        "insurance": {
+          "has_gap": true,
+          "gap_amount": 67208.06,
+          "wealth_band": null
+        }
+      }
+    },
+    {
+      "user_id": "bf89ac80-2652-458b-9aa4-dce79073e9fc",
+      "client_name": "PRIYANKA RAJWAR",
+      "total_impact_value": "\u20b966.41 K",
+      "tags": [
+        "Opp: Insurance"
+      ],
+      "pitch_hook": "Insurance coverage is missing; potential risk exposure.",
+      "drill_down_details": {
+        "portfolio_review": {
+          "has_issue": false,
+          "schemes": []
+        },
+        "sip_health": {
+          "stopped_sips": [],
+          "stagnant_sips": []
+        },
+        "insurance": {
+          "has_gap": true,
+          "gap_amount": 66411.5,
+          "wealth_band": null
+        }
+      }
+    },
+    {
+      "user_id": "45012fdd-a673-4f2f-bb87-dd93591374a0",
+      "client_name": "ANIL SHARMA",
+      "total_impact_value": "\u20b965.61 K",
+      "tags": [
+        "Opp: Insurance"
+      ],
+      "pitch_hook": "Insurance coverage is missing; potential risk exposure.",
+      "drill_down_details": {
+        "portfolio_review": {
+          "has_issue": false,
+          "schemes": []
+        },
+        "sip_health": {
+          "stopped_sips": [],
+          "stagnant_sips": []
+        },
+        "insurance": {
+          "has_gap": true,
+          "gap_amount": 65606.22,
+          "wealth_band": null
+        }
+      }
+    },
+    {
+      "user_id": "a8317f9a-a697-4a28-8747-3e336a9529e8",
+      "client_name": "VINAY S AKKIVALLI",
+      "total_impact_value": "\u20b951.84 K",
+      "tags": [
+        "Opp: Insurance"
+      ],
+      "pitch_hook": "Low insurance coverage detected; opportunity to enhance protection.",
+      "drill_down_details": {
+        "portfolio_review": {
+          "has_issue": false,
+          "schemes": []
+        },
+        "sip_health": {
+          "stopped_sips": [],
+          "stagnant_sips": []
+        },
+        "insurance": {
+          "has_gap": true,
+          "gap_amount": 51839.65,
+          "wealth_band": null
+        }
+      }
+    },
+    {
+      "user_id": "98276c8d-d0ee-4929-b601-d5137c660f34",
+      "client_name": "PRITI KOTHARI",
+      "total_impact_value": "\u20b950.79 K",
+      "tags": [
+        "Opp: Insurance"
+      ],
+      "pitch_hook": "Low insurance coverage detected; opportunity to enhance protection.",
+      "drill_down_details": {
+        "portfolio_review": {
+          "has_issue": false,
+          "schemes": []
+        },
+        "sip_health": {
+          "stopped_sips": [],
+          "stagnant_sips": []
+        },
+        "insurance": {
+          "has_gap": true,
+          "gap_amount": 50794.91,
+          "wealth_band": null
+        }
+      }
+    },
+    {
+      "user_id": "23f6fe31-1d65-4679-99c0-dd5eee522fd6",
+      "client_name": "JAYANTA CHATTERJEE",
+      "total_impact_value": "\u20b910.57 K",
+      "tags": [
+        "Risk: Portfolio Underperformance",
+        "Opp: Insurance"
+      ],
+      "pitch_hook": "Potential advisory fee impact due to underperforming schemes. Insurance coverage is missing.",
+      "drill_down_details": {
+        "portfolio_review": {
+          "has_issue": true,
+          "schemes": [
+            {
+              "name": "HDFC Multi Cap Fund (G)",
+              "xirr_lag": 1.06
+            }
+          ]
+        },
+        "sip_health": {
+          "stopped_sips": [],
+          "stagnant_sips": []
+        },
+        "insurance": {
+          "has_gap": true,
+          "gap_amount": 9635.87,
+          "wealth_band": null
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "agent_external_id": "ag_v49teQwebZsmeXzzYN2GPN",
+    "agent_id": null,
+    "data_summary": {
+      "portfolio_opportunities": {
+        "total": 3,
+        "analyzed": 3
+      },
+      "stagnant_sips": {
+        "total": 15,
+        "analyzed": 15
+      },
+      "stopped_sips": {
+        "total": 15,
+        "analyzed": 15
+      },
+      "insurance_gaps": {
+        "total": 20,
+        "analyzed": 20
+      }
+    },
+    "optimization_note": "Data limited to top opportunities for faster AI processing"
+  }
+}

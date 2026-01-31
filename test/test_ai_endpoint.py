@@ -67,10 +67,20 @@ def test_ai_dashboard_endpoint():
             print(f"\n📈 Data Summary:")
             if "data_summary" in meta:
                 summary = meta["data_summary"]
-                print(f"   • Portfolio Opportunities: {summary.get('portfolio_opportunities', 0)}")
-                print(f"   • Stagnant SIPs: {summary.get('stagnant_sips', 0)}")
-                print(f"   • Stopped SIPs: {summary.get('stopped_sips', 0)}")
-                print(f"   • Insurance Gaps: {summary.get('insurance_gaps', 0)}")
+                
+                # Handle both old and new format
+                def get_count(item):
+                    if isinstance(item, dict):
+                        return f"{item.get('analyzed', 0)} analyzed (of {item.get('total', 0)} total)"
+                    return str(item)
+                
+                print(f"   • Portfolio Opportunities: {get_count(summary.get('portfolio_opportunities', 0))}")
+                print(f"   • Stagnant SIPs: {get_count(summary.get('stagnant_sips', 0))}")
+                print(f"   • Stopped SIPs: {get_count(summary.get('stopped_sips', 0))}")
+                print(f"   • Insurance Gaps: {get_count(summary.get('insurance_gaps', 0))}")
+                
+                if "optimization_note" in meta:
+                    print(f"\n💡 {meta['optimization_note']}")
         
         # Save full response to file
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

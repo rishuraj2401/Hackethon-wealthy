@@ -543,8 +543,60 @@ def get_portfolio_review_opportunities(
     return services.get_portfolio_review_opportunities(db, agent_external_id=agent_external_id)
 
 
+# Helper functions to optimize data before sending to AI
+def _get_attr(obj, key, default=0):
+    """Safely get attribute from dict or Pydantic model"""
+    if isinstance(obj, dict):
+        return obj.get(key, default)
+    return getattr(obj, key, default)
+
+
+def _optimize_portfolio_data(data: dict, limit: int = 10) -> dict:
+    """Limit portfolio data to top clients by value"""
+    if 'clients' in data:
+        # Sort by total underperforming value and limit
+        clients = data['clients']
+        if len(clients) > limit:
+            clients = sorted(
+                clients,
+                key=lambda x: _get_attr(x, 'total_value_underperforming', 0),
+                reverse=True
+            )[:limit]
+        data['clients'] = clients
+    return data
+
+
+def _optimize_sip_data(data: dict, limit: int = 15) -> dict:
+    """Limit SIP opportunities to top by value/impact"""
+    if 'opportunities' in data:
+        opps = data['opportunities']
+        if len(opps) > limit:
+            # For stagnant: prioritize by current_sip amount
+            # For stopped: prioritize by lifetime_success_amount
+            if opps and hasattr(opps[0], 'current_sip'):
+                opps = sorted(opps, key=lambda x: _get_attr(x, 'current_sip', 0), reverse=True)[:limit]
+            else:
+                opps = sorted(opps, key=lambda x: _get_attr(x, 'lifetime_success_amount', 0), reverse=True)[:limit]
+        data['opportunities'] = opps
+    return data
+
+
+def _optimize_insurance_data(data: dict, limit: int = 20) -> dict:
+    """Limit insurance opportunities to top by gap amount"""
+    if 'opportunities' in data:
+        opps = data['opportunities']
+        if len(opps) > limit:
+            opps = sorted(
+                opps,
+                key=lambda x: _get_attr(x, 'premium_gap', 0),
+                reverse=True
+            )[:limit]
+        data['opportunities'] = opps
+    return data
+
+
 @app.get("/api/ai/dashboard-insights", response_model=Dict[str, Any])
-def get_ai_dashboard_insights(
+async def get_ai_dashboard_insights(
     agent_external_id: Optional[str] = Query(None, description="Filter by agent external ID"),
     agent_id: Optional[str] = Query(None, description="Filter by agent ID"),
     db: Session = Depends(get_db)
@@ -572,52 +624,102 @@ def get_ai_dashboard_insights(
     4. Insurance Coverage Gaps (low/no insurance)
     """
     try:
-        # Fetch data from all 4 APIs using internal service calls
-        portfolio_data = services.get_portfolio_review_opportunities(
-            db, 
-            agent_external_id=agent_external_id
+        import asyncio
+        from concurrent.futures import ThreadPoolExecutor
+        from app.database import SessionLocal
+        
+        # Helper to run service with its own DB session
+        def run_with_db(service_func, *args):
+            db_session = SessionLocal()
+            try:
+                return service_func(db_session, *args)
+            finally:
+                db_session.close()
+        
+        # Use thread pool for blocking database operations
+        loop = asyncio.get_event_loop()
+        executor = ThreadPoolExecutor(max_workers=4)
+        
+        # Fetch data from all 4 APIs in parallel with separate DB sessions
+        portfolio_task = loop.run_in_executor(
+            executor,
+            run_with_db,
+            services.get_portfolio_review_opportunities,
+            agent_external_id
         )
         
-        stagnant_sips_data = services.get_stagnant_sip_opportunities(
-            db,
-            agent_external_id=agent_external_id,
-            agent_id=agent_id,
-            min_months=6
+        stagnant_task = loop.run_in_executor(
+            executor,
+            run_with_db,
+            services.get_stagnant_sip_opportunities,
+            agent_id,
+            agent_external_id,
+            6
         )
         
-        stopped_sips_data = services.get_stopped_sip_opportunities(
-            db,
-            agent_external_id=agent_external_id,
-            min_success_count=3,
-            min_inactive_months=2
+        stopped_task = loop.run_in_executor(
+            executor,
+            run_with_db,
+            services.get_stopped_sip_opportunities,
+            agent_external_id,
+            3,
+            2
         )
         
-        insurance_gaps_data = services.get_insurance_gap_opportunities(
-            db,
-            agent_external_id=agent_external_id,
-            min_mf_value=500000
+        insurance_task = loop.run_in_executor(
+            executor,
+            run_with_db,
+            services.get_insurance_gap_opportunities,
+            agent_external_id,
+            500000
         )
         
-        # Call AI agent with fetched data
-        ai_response = generate_dashboard_insight(
-            portfolio_data=portfolio_data,
-            stagnant_data=stagnant_sips_data,
-            stopped_data=stopped_sips_data,
-            insurance_data=insurance_gaps_data
+        # Wait for all data fetching to complete in parallel
+        portfolio_data, stagnant_sips_data, stopped_sips_data, insurance_gaps_data = await asyncio.gather(
+            portfolio_task, stagnant_task, stopped_task, insurance_task
         )
         
-        # Add metadata
+        # Optimize data before sending to AI - limit to top opportunities
+        optimized_portfolio = _optimize_portfolio_data(portfolio_data)
+        optimized_stagnant = _optimize_sip_data(stagnant_sips_data, limit=15)
+        optimized_stopped = _optimize_sip_data(stopped_sips_data, limit=15)
+        optimized_insurance = _optimize_insurance_data(insurance_gaps_data, limit=20)
+        
+        # Call AI agent with optimized data (run in executor to not block)
+        ai_response = await loop.run_in_executor(
+            executor,
+            generate_dashboard_insight,
+            optimized_portfolio,
+            optimized_stagnant,
+            optimized_stopped,
+            optimized_insurance
+        )
+        
+        # Add metadata with both original and optimized counts
         return {
             **ai_response,
             "metadata": {
                 "agent_external_id": agent_external_id,
                 "agent_id": agent_id,
                 "data_summary": {
-                    "portfolio_opportunities": len(portfolio_data.get("clients", [])),
-                    "stagnant_sips": len(stagnant_sips_data.get("opportunities", [])),
-                    "stopped_sips": len(stopped_sips_data.get("opportunities", [])),
-                    "insurance_gaps": len(insurance_gaps_data.get("opportunities", []))
-                }
+                    "portfolio_opportunities": {
+                        "total": len(portfolio_data.get("clients", [])),
+                        "analyzed": len(optimized_portfolio.get("clients", []))
+                    },
+                    "stagnant_sips": {
+                        "total": len(stagnant_sips_data.get("opportunities", [])),
+                        "analyzed": len(optimized_stagnant.get("opportunities", []))
+                    },
+                    "stopped_sips": {
+                        "total": len(stopped_sips_data.get("opportunities", [])),
+                        "analyzed": len(optimized_stopped.get("opportunities", []))
+                    },
+                    "insurance_gaps": {
+                        "total": len(insurance_gaps_data.get("opportunities", [])),
+                        "analyzed": len(optimized_insurance.get("opportunities", []))
+                    }
+                },
+                "optimization_note": "Data limited to top opportunities for faster AI processing"
             }
         }
         
